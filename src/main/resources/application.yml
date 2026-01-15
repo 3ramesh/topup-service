@@ -16,3 +16,8 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
+
+account-service:
+  base-url: http://localhost:8081
+  endpoints:
+    transfer: /v1/accounts/transfer

@@ -5,6 +5,7 @@ import com.vanilla.topup.dto.request.TopupRequestDto;
 import com.vanilla.topup.dto.response.TopupResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
@@ -15,13 +16,16 @@ public class AccountClient {
 
     private final RestClient restClient;
 
+    @Value("${account-service.endpoints.transfer:/v1/accounts/transfer}")
+    private String transferUri;
+
     public TopupResponseDto transferAmount(TopupRequestDto requestDto) {
         log.info("Calling Account service for topup: {} → {} amount {}",
                 requestDto.fromAccount(), requestDto.toAccount(), requestDto.amount());
 
         try {
             return restClient.post()
-                    .uri("/v1/accounts/transfer")
+                    .uri(transferUri)
                     .body(requestDto)
                     .retrieve()
                     .toEntity(TopupResponseDto.class)
