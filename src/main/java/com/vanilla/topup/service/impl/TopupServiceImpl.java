@@ -33,11 +33,13 @@ public class TopupServiceImpl implements TopupService {
         if (TopupStatus.SUCCESS.name().equals(response.status())) {
             topup.markSuccess();
             log.info("Topup SUCCESS from {} to {} amount: {}",
-                    requestDto.fromAccount(), requestDto.toAccount(), requestDto.amount());
+                    response.fromAccount(), response.toAccount(), response.amount());
+            response = TopupResponseDto.success(response.fromAccount(), response.toAccount(), response.amount());
+
         } else {
             topup.markFailed(response.message());
             log.warn("Topup FAILED from {} to {} amount: {}",
-                    requestDto.fromAccount(), requestDto.toAccount(), response.message());
+                    response.fromAccount(), response.toAccount(), response.message());
         }
         topupRepository.save(topup);
 

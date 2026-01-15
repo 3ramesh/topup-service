@@ -5,14 +5,18 @@ import com.vanilla.topup.dto.request.TopupRequestDto;
 
 import java.math.BigDecimal;
 
-public record TopupResponseDto(
+import static com.vanilla.topup.constant.enums.TopupStatus.SUCCESS;
 
+public record TopupResponseDto(
         String fromAccount,
         String toAccount,
         BigDecimal amount,
         String status,
         String message
-
 ) {
+
+    public static TopupResponseDto success(String fromAccount, String toAccount, BigDecimal amount) {
+        return new TopupResponseDto(fromAccount, toAccount, amount, SUCCESS.name(), "Topup completed successfully");
+    }
 
 }
